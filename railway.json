@@ -4,8 +4,6 @@
   },
   "deploy": {
     "startCommand": "/usr/bin/supervisord",
-    "healthcheckPath": "/",
-    "healthcheckTimeout": 300,
     "restartPolicyType": "always"
   }
 }
