@@ -27,9 +27,10 @@ COPY docker/nginx.conf /etc/nginx/nginx.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 
 # Exponer el puerto que Railway asigna
+ENV PORT=8080
 EXPOSE 8080
+
+RUN nginx -t
 
 # Iniciar Nginx y PHP-FPM con Supervisor
 CMD ["/usr/bin/supervisord"]
-
-ENV PORT=8080
