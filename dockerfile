@@ -9,5 +9,5 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 WORKDIR /app
 COPY . .
 
-RUN composer install --optimize-autoloader --no-scripts
+RUN composer update --no-scripts --optimize-autoloader
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
