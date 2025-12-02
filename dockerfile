@@ -16,7 +16,7 @@ COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 # Crear directorios necesarios
 RUN mkdir -p /var/www/html /var/log/supervisor
 
-WORKDIR /var/www/html
+WORKDIR /var/www/html/public/index.php
 COPY . .
 
 # Instalar dependencias Laravel
