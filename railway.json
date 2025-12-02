@@ -7,6 +7,6 @@
     "preDeployCommand": "php artisan migrate --force",
     "restartPolicyType": "always",
     "healthcheckPath": "/",
-    "healthcheckTimeout": 100
+    "healthcheckTimeout": 300
   }
 }
