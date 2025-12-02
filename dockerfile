@@ -1,20 +1,33 @@
-FROM php:8.4-cli
+FROM php:8.4-fpm
 
-# Instalar extensiones necesarias para Laravel y Composer
+# Instalar extensiones necesarias para Laravel
 RUN apt-get update && apt-get install -y \
     unzip \
     git \
     zip \
     libzip-dev \
+    nginx \
+    supervisor \
     && docker-php-ext-install pdo pdo_mysql zip
 
 # Instalar Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-WORKDIR /app
+# Crear directorios necesarios
+RUN mkdir -p /var/www/html /var/log/supervisor
+
+WORKDIR /var/www/html
 COPY . .
 
-# Regenerar lock file con PHP 8.4
-RUN composer update --no-scripts --optimize-autoloader
+# Instalar dependencias Laravel
+RUN composer install --optimize-autoloader --no-scripts --no-interaction
 
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
+# Copiar configuración de Nginx y Supervisor
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
+
+# Exponer el puerto que Railway asigna
+EXPOSE 8080
+
+# Iniciar Nginx y PHP-FPM con Supervisor
+CMD ["/usr/bin/supervisord"]
