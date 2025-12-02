@@ -31,3 +31,5 @@ EXPOSE 8080
 
 # Iniciar Nginx y PHP-FPM con Supervisor
 CMD ["/usr/bin/supervisord"]
+
+ENV PORT=8080
